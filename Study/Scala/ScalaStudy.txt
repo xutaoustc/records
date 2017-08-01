@@ -337,6 +337,8 @@
     c1.students += s2
 
 
+Object感觉好像是把一个类的静态部分从类中提取出来,而且这个部分Scala限制了它不能被显示实例化.
+所谓的单例,只是它能实现的功能.
 20. 对象 - 单例
     // 第一次调用object的方法时，就会执行object的constructor，也就是object内部不在method中的代码；但是object不能定义接受参数的constructor
     // 注意，object的constructor只会在其第一次被调用时执行一次，以后再次调用就不会再次执行constructor了
@@ -355,7 +357,6 @@
       private val eyeNum = 2
       def getEyeNum = eyeNum
     }
-
     class Person(val name: String, val age: Int) {
       def sayHello = println("Hi, " + name + ", I guess you are " + age + " years old!" + ", and usually you must have " + Person.eyeNum + " eyes.")
     }
@@ -366,7 +367,6 @@
     abstract class Hello(var message: String) {
       def sayHello(name: String): Unit
     }
-
     object HelloImpl extends Hello("hello") {
       override def sayHello(name: String) = {
         println(message + ", " + name)
@@ -390,6 +390,7 @@
 
 
     // Scala没有直接提供类似于Java中的Enum这样的枚举特性，如果要实现枚举，则需要用object继承Enumeration类，并且调用Value方法来初始化枚举值
+    // 每次调用Value方法都返回内部类的新实例,该内部类也叫Value
     object Season extends Enumeration {
       val SPRING, SUMMER, AUTUMN, WINTER = Value
     }
@@ -401,6 +402,9 @@
       val AUTUMN = Value(2, "autumn")
       val WINTER = Value(3, "winter")
     }
+    外面使用Season.SPRING, Season.SUMMER
+
+    //通过名称或者ID定位枚举对象
     Season(0)
     Season.withName("spring")
 
